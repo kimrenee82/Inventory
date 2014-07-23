@@ -36,11 +36,6 @@ def change_name(old,new)
 	puts 
 end
 
-def validate()
-	puts "You have entered an invalid entry. Please try again"
-	@edit_item = gets.chomp
-end
-
 # -------------------------- Program Starts -----------------------
 	
 puts `clear`
@@ -52,13 +47,13 @@ until @edit_item == 'quit' || @task_to_do == 'quit'
 	puts "Which item would you like to edit? Enter a number from the list. To quit, enter 'quit'."
 	@edit_item = gets.chomp.downcase
 
-		if @edit_item.to_i > @inventory_items.length && @edit_item != 'quit'
+		if @edit_item.to_i > @inventory_items.length || @edit_item.to_i <= 0
 		
-		until @edit_item.to_i <= @inventory_items.length || @edit_item == 'quit' 
-		validate()			
+			until @edit_item.to_i <= @inventory_items.length && @edit_item != 'quit' && @edit_item.to_i > 0
+				puts "You have entered an invalid entry. Please try again"
+				@edit_item = gets.chomp
+			end
 		end
-
-	elsif @edit_item.to_i <= @inventory_items.length && @edit_item != 'quit' 
 			
 		puts "You have chosen #{@inventory_items[@edit_item.to_i - 1]}"
 		puts "Would you like to update the quantity or name of this item? Type 'Q' for quantity or 'N' for item name"
@@ -71,9 +66,9 @@ until @edit_item == 'quit' || @task_to_do == 'quit'
 
 		if @task_to_do == 'n'
 
-			puts "You have are editing #{@inventory_items[@edit_item.to_i - 1]} to something else. What would you like to change it to?"
-			@new_name = gets.chomp.to_s	
-			change_name(@inventory_items[@edit_item.to_i - 1], @new_name)		
+			puts "You are about to edit #{@inventory_items[@edit_item.to_i - 1]} to something else. What would you like to change it to?"
+			new_name = gets.chomp.to_s	
+			change_name(@inventory_items[@edit_item.to_i - 1], new_name)		
 			@edit_item = @inventory_items.length
 			get_quantity() 
 
@@ -88,8 +83,4 @@ until @edit_item == 'quit' || @task_to_do == 'quit'
 
 		end
 				
-	else
-
-	end
-
 end
